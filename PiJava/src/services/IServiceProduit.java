@@ -16,5 +16,6 @@ public interface IServiceProduit<P> {
     
     void insertProduit(P p);
     List<P> getAllProduit();
+    public void supprimer(int x);
     
 }

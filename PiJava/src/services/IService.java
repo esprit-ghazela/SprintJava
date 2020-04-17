@@ -5,7 +5,9 @@
  */
 package services;
 
+import java.util.HashMap;
 import java.util.List;
+import models.Categorie;
 
 /**
  *
@@ -13,12 +15,15 @@ import java.util.List;
  * @param <C>
  */
 public interface IService<C> {
-    void insert(C c);
-    List<C> getAll();
-    void delete(C c);
-    void edit (C c) ;
-    
-   
-    
-    
+    /*void insert(C c);
+     //public HashMap<String,String,Integer> selectAll();
+     void delete(C c);
+     void edit (C c) ;*/
+
+    public void insert(Categorie c);
+
+    public void supprimer(int x);
+
+    List<Categorie> selectAll();
+
 }

@@ -10,20 +10,20 @@ package models;
  * @author ASUS
  */
 public class Produit {
+    private int id ;
+    private String nom ;
+    private String description ;
+    private String marque ;
+    private int id_categorie ;
+    private int partenaire ;
+    private double prix ;
+    private int quantite ;
+    private String reference ;
+    private String image ;
+    private String caegorie ;
 
-    private int id;
-    private String nom;
-    private String description;
-    private String marque;
-    private int id_categorie;
-    private int partenaire;
-    private double prix;
-    private int quantite;
-    private String reference;
-    private String image;
-
-
-    public Produit(int id, String nom, String description, String marque, int id_categorie, int partenaire, double prix, int quantite, String reference, String image) {
+    
+    public Produit(int id, String nom, String description, String marque, int id_categorie, int partenaire, double prix, int quantite, String reference ,String image) {
         this.id = id;
         this.nom = nom;
         this.description = description;
@@ -33,10 +33,22 @@ public class Produit {
         this.prix = prix;
         this.quantite = quantite;
         this.reference = reference;
+        this.image = image ;
+    }
+
+    public Produit(int id,String reference,String nom, String image, double prix,int quantite,String caegorie,String marque,  String description) {
+        this.id = id;
+        this.nom = nom;
+        this.description = description;
+        this.marque = marque;
+        this.caegorie = caegorie;
+        this.prix = prix;
+        this.quantite = quantite;
+        this.reference = reference;
         this.image = image;
     }
 
-    public Produit(String nom, String description, String marque, int id_categorie, int partenaire, double prix, int quantite, String reference, String image) {
+    public Produit( String reference,String nom,String image,double prix, int quantite,int id_categorie,String marque, String description, int partenaire) {
         this.nom = nom;
         this.description = description;
         this.marque = marque;
@@ -47,6 +59,23 @@ public class Produit {
         this.reference = reference;
         this.image = image;
     }
+
+    public Produit() {
+    }
+
+   
+
+   /* public Produit(String nom, String description, String marque, int categorie, int partenaire, double prix, int quantite, String reference,String image) {
+        this.nom = nom;
+        this.description = description;
+        this.marque = marque;
+        this.id_categorie = id_categorie;
+        this.partenaire = partenaire;
+        this.prix = prix;
+        this.quantite = quantite;
+        this.reference = reference;
+        this.image = image ;
+    }*/
 
     public int getId() {
         return id;
@@ -87,6 +116,7 @@ public class Produit {
     public void setId_categorie(int id_categorie) {
         this.id_categorie = id_categorie;
     }
+
 
     public int getPartenaire() {
         return partenaire;
@@ -133,4 +163,17 @@ public class Produit {
         return "Produit{" + "id=" + id + ", nom=" + nom + ", description=" + description + ", marque=" + marque + ", id_categorie=" + id_categorie + ", partenaire=" + partenaire + ", prix=" + prix + ", quantite=" + quantite + ", reference=" + reference + ", image=" + image + '}';
     }
 
+    public void setId_categorie(String nom_categorie) {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+
+    public void setCategorie(String string) {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+
+   
+    
+    
+    
+    
 }
