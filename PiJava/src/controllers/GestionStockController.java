@@ -7,6 +7,8 @@ package controllers;
 
 import com.jfoenix.controls.JFXTextField;
 import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
 import java.io.IOException;
 import java.net.URL;
 import java.sql.Connection;
@@ -44,6 +46,10 @@ import models.Utilisateur;
 import services.CategorieService;
 import services.ProduitService;
 import utils.ConnectionUtil;
+
+import org.apache.poi.xssf.usermodel.XSSFRow;
+import org.apache.poi.xssf.usermodel.XSSFSheet;
+import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 
 /**
  * FXML Controller class
@@ -84,6 +90,12 @@ public class GestionStockController implements Initializable {
     Statement ste;
     @FXML
     private JFXTextField filterField;
+
+    private XSSFWorkbook wb;
+    private XSSFSheet sheet;
+    private XSSFRow header;
+    private ResultSet rs = null;
+
     public static int id_user;
 
     // public static Utilisateur recupererUtilisateurConnecte;
@@ -199,6 +211,8 @@ public class GestionStockController implements Initializable {
         } catch (IOException ex) {
             Logger.getLogger(GestionCategorieController.class.getName()).log(Level.SEVERE, null, ex);
         }
+        
+      
     }
 
     @FXML
@@ -207,18 +221,7 @@ public class GestionStockController implements Initializable {
         AfficherProduit();
     }
 
-    private String getNomCategorie(int id) throws SQLException {
-        String categorie_nom;
-        String req = "select nom from categorie where id =" + "'" + id + "'";
-        Statement statement = con.createStatement();
-        ResultSet resultSet = statement.executeQuery(req);
-        while (resultSet.next()) {
-            // System.out.println(resultSet.getString("nom"));
-            categorie_nom = resultSet.getString("nom");
-            return categorie_nom;
-        }
-        return null;
-    }
+  
 
     private void Recherche() {
 
@@ -263,7 +266,7 @@ public class GestionStockController implements Initializable {
     }
 
     @FXML
-    private void exporterPDF(ActionEvent event) {
+    private void exporterPDF(ActionEvent event) throws SQLException, FileNotFoundException, IOException {
         Produit selectedItem = liste_produit.getSelectionModel().getSelectedItem();
         if (selectedItem != null) {
 
@@ -292,10 +295,13 @@ public class GestionStockController implements Initializable {
 
             alert.showAndWait();
         }
+        
     }
 
-    @FXML
-    private void modifier(MouseEvent event) {
-    }
+   
+
+   
+    
+    
 
 }

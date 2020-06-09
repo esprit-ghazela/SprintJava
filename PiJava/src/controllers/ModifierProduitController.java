@@ -60,15 +60,23 @@ public class ModifierProduitController implements Initializable {
     private Button btn_close;
     @FXML
     private VBox bp;
+    @FXML
     private JFXTextField reference_produit;
+    @FXML
     private JFXTextField nom_produit;
     @FXML
     private Label errors_nom;
+    @FXML
     private JFXTextField prix_produit;
+    @FXML
     private JFXTextField quantite_produit;
+    @FXML
     private ComboBox<String> marque_produit;
+    @FXML
     private ComboBox<String> categorie_produit;
+    @FXML
     private JFXTextArea description_produit;
+    @FXML
     private ImageView imageProduitPreview;
     @FXML
     private Label errors_image;
@@ -83,7 +91,20 @@ public class ModifierProduitController implements Initializable {
     @FXML
     private JFXTextField id_produit_modifier;
     List<String> listFichier;
-  
+    @FXML
+    private Label errors_reference;
+    @FXML
+    private Label errors_prix;
+    @FXML
+    private Label errors_quantite;
+    @FXML
+    private Label errors_marque;
+    @FXML
+    private Label errors_categorie;
+    @FXML
+    private Label errors_description;
+    @FXML
+    private Button importerImage;
 
     /**
      * Initializes the controller class.
@@ -91,8 +112,8 @@ public class ModifierProduitController implements Initializable {
     @Override
     public void initialize(URL url, ResourceBundle rb) {
         // TODO
-        AfficherCategorie();
-        marque_produit.getItems().addAll(
+       AfficherCategorie();
+       marque_produit.getItems().addAll(
                 "Atala",
                 "Atom Bicycles",
                 "BH Bikes",
@@ -105,6 +126,7 @@ public class ModifierProduitController implements Initializable {
                 "Giant",
                 "Kestrel"
         );
+       // marque_produit.setItems(null);
         imageProduit = null;
         listFichier = new ArrayList<>();
         listFichier.add("*.png");
@@ -127,13 +149,13 @@ public class ModifierProduitController implements Initializable {
         String conv = categorie_produit.getValue().toString();
         int categorie = 0;
         String req = "select id from categorie where nom =" + "'" + conv + "'";
-        Statement statement = con.createStatement() ;
+        Statement statement = con.createStatement();
         ResultSet resultSet = statement.executeQuery(req);
         while (resultSet.next()) {
             categorie = resultSet.getInt("id");
         }
-        String marque = marque_produit.getValue() ;
-        String image = imageProduit ;
+        String marque = marque_produit.getValue();
+        String image = imageProduit;
         String description = description_produit.getText();
         int id = Integer.valueOf(id_produit_modifier.getText());
 
@@ -142,7 +164,7 @@ public class ModifierProduitController implements Initializable {
         a1.setContentText("vous voulez vraiment Modifier ce produit?");
         Optional<ButtonType> result = a1.showAndWait();
         if (result.get() == ButtonType.OK) {
-            ps.modifier(id,reference,nom,image,prix,quantite,categorie,marque,description);
+            ps.modifier(id, reference, nom, image, prix, quantite, categorie, marque, description);
 
         } else if (result.get() == ButtonType.CANCEL) {
 
@@ -150,6 +172,7 @@ public class ModifierProduitController implements Initializable {
     }
 
     public void setProduit(Produit p) throws SQLException {
+        System.out.println("TEST SET");
         produit = p;
         String nom_categorie = null;
         int id = produit.getId_categorie();
@@ -183,7 +206,7 @@ public class ModifierProduitController implements Initializable {
     }
 
     private void AfficherCategorie() {
-        con = ConnectionUtil.conDB();
+          con = ConnectionUtil.conDB();
         String qry = "SELECT * from categorie";
         try {
             ResultSet res = con.createStatement().executeQuery(qry);
@@ -199,6 +222,7 @@ public class ModifierProduitController implements Initializable {
         }
     }
 
+    @FXML
     private void importerProduitImage(ActionEvent event) throws FileNotFoundException, IOException {
         FileChooser fc = new FileChooser();
         fc.getExtensionFilters().add(new FileChooser.ExtensionFilter("Images", listFichier));
@@ -232,10 +256,6 @@ public class ModifierProduitController implements Initializable {
         } else if (f == null) {
             errors_image.setText("Erreur chargement de l'image");
         }
-    }
-
-    void setUtilisateur(Utilisateur utilisateur) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 
 }

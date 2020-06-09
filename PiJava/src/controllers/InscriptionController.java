@@ -99,23 +99,8 @@ public class InscriptionController implements Initializable {
     private void handleButtonAction(MouseEvent event) throws MessagingException {
         if (event.getSource() == btnSignup) {
             //login here
-          SignUp();
-            try {
-                
-                //add you loading or delays - ;-)
-                Node node = (Node) event.getSource();
-                Stage stage = (Stage) node.getScene().getWindow();
-                //stage.setMaximized(true);
-                //  stage.close();
-                Scene scene = new Scene(FXMLLoader.load(getClass().getResource("/views/VerifierInscriMail.fxml")));
-                stage.getIcons().add(new Image("/images/logo.png"));
-                stage.setTitle("Verification");
-                stage.setScene(scene);
-                stage.show();
-
-            } catch (IOException ex) {
-                System.err.println(ex.getMessage());
-            }
+          SignUp( event);
+           
 
         }
     }
@@ -186,7 +171,7 @@ public class InscriptionController implements Initializable {
         txtPassword.clear();
     }
 
-    private void SignUp() {
+    private void SignUp(MouseEvent event) {
         status = "Success";
         username = txtUsername.getText();
         password = txtPassword.getText();
@@ -200,8 +185,24 @@ public class InscriptionController implements Initializable {
 
         System.out.println(email.matches(".+@.+\\.[a-z]+"));
 
-        if (prenom.isEmpty() || email.matches(".+@.+\\.[a-z]+") == false || nom.isEmpty() || username.isEmpty() || email.isEmpty() || password.isEmpty()) {
+        if (prenom.isEmpty() || email.isEmpty() || nom.isEmpty() || username.isEmpty() || email.isEmpty() || password.isEmpty()) {
             lblErrors.setText("Veuillez vérifier votre saisie...");
+            status = "Error";
+        }
+        else if(!email.matches(".+@.+\\.[a-z]+")){
+            lblErrors.setText("Email invalide");
+            status = "Error";
+        } 
+        else if(!nom.matches( "[a-zA-Z]*" ) || nom.length() < 3){
+            lblErrors.setText("Nom invalide");
+            status = "Error";
+        } 
+        else if(!prenom.matches( "[a-zA-Z]*" ) || prenom.length() < 3){
+            lblErrors.setText("Prenom invalide");
+            status = "Error";
+        }
+        else if(!username.matches( "[a-zA-Z]*" ) || username.length() < 3){
+            lblErrors.setText("Nom d'utilisateur invalide");
             status = "Error";
         }
        else {
@@ -213,6 +214,28 @@ public class InscriptionController implements Initializable {
             } catch (MessagingException ex) {
                 Logger.getLogger(InscriptionController.class.getName()).log(Level.SEVERE, null, ex);
             }
+            
+            
+             try {
+                
+                //add you loading or delays - ;-)
+                Node node = (Node) event.getSource();
+                Stage stage = (Stage) node.getScene().getWindow();
+                //stage.setMaximized(true);
+                //  stage.close();
+                Scene scene = new Scene(FXMLLoader.load(getClass().getResource("/views/VerifierInscriMail.fxml")));
+                stage.getIcons().add(new Image("/images/logo.png"));
+                stage.setTitle("Verification");
+                stage.setScene(scene);
+                stage.show();
+
+            } catch (IOException ex) {
+                System.err.println(ex.getMessage());
+            }
+            
+            
+            
+            
         }
 
 

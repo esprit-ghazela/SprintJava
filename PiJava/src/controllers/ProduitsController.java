@@ -87,6 +87,9 @@ public class ProduitsController implements Initializable {
     @FXML
     private FlowPane flowPane;
 
+    static List<Panier> listPanier = new ArrayList<Panier>();
+    
+    
     Connection con = null;
     PreparedStatement preparedStatement = null;
     ResultSet resultSet = null;
@@ -100,10 +103,8 @@ public class ProduitsController implements Initializable {
     @FXML
     private JFXButton btn_searchp;
     ToggleGroup gp = new ToggleGroup();
-    @FXML
-    private VBox filter_marque;
-    ToggleGroup gp2 = new ToggleGroup();
 
+    
     /**
      * Initializes the controller class.
      */
@@ -112,7 +113,6 @@ public class ProduitsController implements Initializable {
         // TODO
         afficherProduit();
         FiltreParCategorie();
-        FiltreParMarque() ;
         btn_searchp.setOnAction(new EventHandler<ActionEvent>() {
             @Override
             public void handle(ActionEvent event) {
@@ -125,28 +125,12 @@ public class ProduitsController implements Initializable {
             @Override
             public void changed(ObservableValue<? extends Toggle> observable, Toggle oldToggle, Toggle newToggle) {
                 //print new selected value after change
-                System.out.println("Selected Catégorie: " + ((RadioButton) newToggle).getText());
+                System.out.println("Selected Radio Button: " + ((RadioButton) newToggle).getText());
                 String c = ((RadioButton) newToggle).getText();
                 int cat = categorieService.getIdCategorie(c);
                 // System.out.print("test categ    /"+cat);
                 flowPane.getChildren().clear();
-                int f = 1 ;
-                filtre(cat,"",f);
-            }
-
-        });
-        
-          gp2.selectedToggleProperty().addListener(new ChangeListener<Toggle>() {
-            @Override
-            public void changed(ObservableValue<? extends Toggle> observable, Toggle oldToggle, Toggle newToggle) {
-                //print new selected value after change
-                System.out.println("Selected Marque: " + ((RadioButton) newToggle).getText());
-                String maq = ((RadioButton) newToggle).getText();
-               // int cat = categorieService.getIdCategorie(c);
-                System.out.print("test marque    /"+maq);
-                flowPane.getChildren().clear();
-                int f = 2 ;
-                filtre(0,maq,f);
+                filtre(cat);
             }
 
         });
@@ -191,21 +175,57 @@ public class ProduitsController implements Initializable {
                     String n = recupererUtilisateurConnecte.getNom_Utilisateur();
                     Label nom = new Label(list.get(i).getNom());
                     Label prix = new Label(Double.toString(list.get(i).getPrix()) + " DT");
-                    Panier listp = new Panier(list.get(i).getId(),
-                            list.get(i).getNom(),
-                            list.get(i).getImage(),
-                            list.get(i).getQuantite(),
-                            list.get(i).getPrix(),
-                            n
-                    );
 
+                    Panier newPanier = new Panier();
+
+                    newPanier.setId(list.get(i).getId());
+                    newPanier.setNom(list.get(i).getNom());
+                    newPanier.setReference(list.get(i).getReference());
+                    newPanier.setImage(list.get(i).getImage());
+                    newPanier.setPrix(list.get(i).getPrix());
+                    newPanier.setQuantite(list.get(i).getQuantite());
+                    newPanier.setQt_panier(1);
+                    
+                    int tempqt = list.get(i).getQuantite() ;
+                    double tempprix = list.get(i).getPrix() ;
+                    int tempid = list.get(i).getId() ;
+
+
+                    /*
+                     Panier listp = new Panier(list.get(i).getId(),
+                     list.get(i).getNom(),
+                     list.get(i).getImage(),
+                     list.get(i).getQuantite(),
+                     list.get(i).getPrix(),
+                     n
+                     );*/
                     Button btnSupp = new Button("Ajouter au panier");
                     btnSupp.setStyle("-fx-background-color : #4099ff");
                     btnSupp.setOnAction(new EventHandler<ActionEvent>() {
 
                         @Override
                         public void handle(ActionEvent event) {
-                            panierService.ajouterArticle(listp);
+                          // panierService.ajouterArticle(listp);
+
+                            if (listPanier.size() == 0 ) {
+                                listPanier.add(newPanier);
+                                new Alert(Alert.AlertType.INFORMATION, "Article ajouter").show();
+                                
+                            } else if (tempqt == 0) {
+                                 new Alert(Alert.AlertType.INFORMATION, "Cette article est en rupture de stock").show();
+                                
+                            } else if (check(tempid) && tempqt > getQt(tempid)) {
+                                setQt(tempid);
+                               new Alert(Alert.AlertType.INFORMATION, "Quantiter ajouter").show();
+                                
+                                
+                            } else if (tempqt != 0 && !check(tempid)) {
+                                listPanier.add(newPanier);
+                               new Alert(Alert.AlertType.INFORMATION, "Article ajouter au panier").show();
+                           
+                            } else {
+                                 new Alert(Alert.AlertType.INFORMATION, "Erreur d'ajouter au panier").show();
+                            }
 
                         }
                     });
@@ -250,35 +270,9 @@ public class ProduitsController implements Initializable {
         for (int i = 0; i < list.size(); i++) {
             RadioButton b1 = new RadioButton(list.get(i).getNom());
             b1.setToggleGroup(gp);
-          
             filter_categorie.setSpacing(10);
             filter_categorie.getChildren().addAll(b1);
 
-        }
-
-    }
-
-    public void FiltreParMarque() {
-        ArrayList<String> marque = new ArrayList<String>();
-        marque.add("Atala");
-        marque.add("Atom Bicycles");
-        marque.add("BH Bikes");
-        marque.add("Bianchi");
-        marque.add("Bike by Me");
-        marque.add("BMC");
-        marque.add("BTwin");
-        marque.add("Cannondale Bicycles");
-        marque.add("Canyon");
-        marque.add("Giant");
-        
-        
-
-        for (int i = 0; i < marque.size(); i++) {
-            RadioButton b1 = new RadioButton(marque.get(i));
-            b1.setToggleGroup(gp2);
-            filter_marque.setSpacing(10);
-            filter_marque.getChildren().addAll(b1);
-            
         }
 
     }
@@ -317,14 +311,22 @@ public class ProduitsController implements Initializable {
                 imageView.setFitHeight(250);
                 String n = recupererUtilisateurConnecte.getNom_Utilisateur();
                 Label nom = new Label(list.get(i).getNom());
+                
                 Label prix = new Label(Double.toString(list.get(i).getPrix()) + " DT");
-                Panier listp = new Panier(list.get(i).getId(),
-                        list.get(i).getNom(),
-                        list.get(i).getImage(),
-                        list.get(i).getQuantite(),
-                        list.get(i).getPrix(),
-                        n
-                );
+               
+                    Panier newPanier = new Panier();
+
+                    newPanier.setId(list.get(i).getId());
+                    newPanier.setNom(list.get(i).getNom());
+                    newPanier.setReference(list.get(i).getReference());
+                    newPanier.setImage(list.get(i).getImage());
+                    newPanier.setPrix(list.get(i).getPrix());
+                    newPanier.setQuantite(list.get(i).getQuantite());
+                    newPanier.setQt_panier(1);
+                    
+                    int tempqt = list.get(i).getQuantite() ;
+                    double tempprix = list.get(i).getPrix() ;
+                    int tempid = list.get(i).getId() ;
 
                 Button btnSupp = new Button("Ajouter au panier");
                 btnSupp.setStyle("-fx-background-color : #4099ff");
@@ -332,7 +334,25 @@ public class ProduitsController implements Initializable {
 
                     @Override
                     public void handle(ActionEvent event) {
-                        panierService.ajouterArticle(listp);
+                         if (listPanier.size() == 0 ) {
+                                listPanier.add(newPanier);
+                                new Alert(Alert.AlertType.INFORMATION, "Article ajouter").show();
+                                
+                            } else if (tempqt == 0) {
+                                 new Alert(Alert.AlertType.INFORMATION, "Cette article est en rupture de stock").show();
+                                
+                            } else if (check(tempid) && tempqt > getQt(tempid)) {
+                                setQt(tempid);
+                               new Alert(Alert.AlertType.INFORMATION, "Quantiter ajouter").show();
+                                
+                                
+                            } else if (tempqt != 0 && !check(tempid)) {
+                                listPanier.add(newPanier);
+                               new Alert(Alert.AlertType.INFORMATION, "Article ajouter au panier").show();
+                           
+                            } else {
+                                 new Alert(Alert.AlertType.INFORMATION, "Erreur d'ajouter au panier").show();
+                            }
 
                     }
                 });
@@ -380,16 +400,11 @@ public class ProduitsController implements Initializable {
 
     }
 
-    private void filtre(int cat,String m ,int f) {
-         ProduitService sp = new ProduitService();
+    private void filtre(int cat) {
+
+        ProduitService sp = new ProduitService();
         List<Produit> list = null;
-        if (f == 1)
-        {
-            list = sp.getAllFilterCatProd(cat);
-        }
-        else{
-            list = sp.getAllFilterMaqProd(m);
-        }
+        list = sp.getAllFilterCatProd(cat);
         ArrayList<VBox> vbx = new ArrayList<>();
         ServicePanier panierService = new ServicePanier();
         //ArrayList<Panier> listPanier = (ArrayList<Panier>) panierService.getPanier();
@@ -424,13 +439,20 @@ public class ProduitsController implements Initializable {
                     String n = recupererUtilisateurConnecte.getNom_Utilisateur();
                     Label nom = new Label(list.get(i).getNom());
                     Label prix = new Label(Double.toString(list.get(i).getPrix()) + " DT");
-                    Panier listp = new Panier(list.get(i).getId(),
-                            list.get(i).getNom(),
-                            list.get(i).getImage(),
-                            list.get(i).getQuantite(),
-                            list.get(i).getPrix(),
-                            n
-                    );
+                   
+                    Panier newPanier = new Panier();
+
+                    newPanier.setId(list.get(i).getId());
+                    newPanier.setNom(list.get(i).getNom());
+                    newPanier.setReference(list.get(i).getReference());
+                    newPanier.setImage(list.get(i).getImage());
+                    newPanier.setPrix(list.get(i).getPrix());
+                    newPanier.setQuantite(list.get(i).getQuantite());
+                    newPanier.setQt_panier(1);
+                    
+                    int tempqt = list.get(i).getQuantite() ;
+                    double tempprix = list.get(i).getPrix() ;
+                    int tempid = list.get(i).getId() ;
 
                     Button btnSupp = new Button("Ajouter au panier");
                     btnSupp.setStyle("-fx-background-color : #4099ff");
@@ -438,7 +460,25 @@ public class ProduitsController implements Initializable {
 
                         @Override
                         public void handle(ActionEvent event) {
-                            panierService.ajouterArticle(listp);
+                             if (listPanier.size() == 0 ) {
+                                listPanier.add(newPanier);
+                                new Alert(Alert.AlertType.INFORMATION, "Article ajouter").show();
+                                
+                            } else if (tempqt == 0) {
+                                 new Alert(Alert.AlertType.INFORMATION, "Cette article est en rupture de stock").show();
+                                
+                            } else if (check(tempid) && tempqt > getQt(tempid)) {
+                                setQt(tempid);
+                               new Alert(Alert.AlertType.INFORMATION, "Quantiter ajouter").show();
+                                
+                                
+                            } else if (tempqt != 0 && !check(tempid)) {
+                                listPanier.add(newPanier);
+                               new Alert(Alert.AlertType.INFORMATION, "Article ajouter au panier").show();
+                           
+                            } else {
+                                 new Alert(Alert.AlertType.INFORMATION, "Erreur d'ajouter au panier").show();
+                            }
 
                         }
                     });
@@ -468,6 +508,43 @@ public class ProduitsController implements Initializable {
                 } catch (FileNotFoundException ex) {
                     Logger.getLogger(ProduitsController.class.getName()).log(Level.SEVERE, null, ex);
                 }
+            }
+        }
+
+    }
+    
+    
+     private boolean check(int id) {
+        boolean ck = false;
+        for (int i = 0; i < listPanier.size(); i++) {
+            if (listPanier.get(i).getId() == id) {
+                System.out.println("check : ");
+                System.out.println("check 1: " + listPanier.get(i).getId());
+                System.out.println("check 2: " + id);
+                return true;
+            }
+        }
+        return ck;
+    }
+
+    private int getQt(int id) {
+        for (int i = 0; i < listPanier.size(); i++) {
+            if (listPanier.get(i).getId() == id) {
+                System.out.println("check : ");
+                System.out.println("check 1: " + listPanier.get(i).getId());
+                System.out.println("check 2: " + id);
+                return listPanier.get(i).getQt_panier();
+            }
+        }
+        return 0;
+    }
+
+    private void setQt(int id) {
+        for (int i = 0; i < listPanier.size(); i++) {
+            if (listPanier.get(i).getId() == id) {
+                int qta = listPanier.get(i).getQt_panier() ;
+                qta++;
+                listPanier.get(i).setQt_panier(qta);
             }
         }
 

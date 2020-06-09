@@ -6,12 +6,14 @@
 package controllers;
 
 import com.jfoenix.controls.JFXTextField;
+import java.io.FileOutputStream;
 import java.io.IOException;
 import java.net.URL;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.Optional;
 import java.util.ResourceBundle;
@@ -35,9 +37,14 @@ import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.BorderPane;
 import javafx.stage.StageStyle;
+import javax.swing.JFileChooser;
 import models.Utilisateur;
 import services.ServiceLogin;
 import utils.ConnectionUtil;
+
+import org.apache.poi.xssf.usermodel.XSSFRow;
+import org.apache.poi.xssf.usermodel.XSSFSheet;
+import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 
 /**
  * FXML Controller class
@@ -68,6 +75,10 @@ public class GestionPartenaireController implements Initializable {
     ServiceLogin serviceLogin = new ServiceLogin();
     private ObservableList<Utilisateur> masterData = FXCollections.observableArrayList();
     ObservableList<Utilisateur> ListPartenaire = FXCollections.observableArrayList();
+    private XSSFWorkbook wb;
+    private XSSFSheet sheet;
+    private XSSFRow header;
+    private ResultSet rs = null;
 
     /**
      * Initializes the controller class.
@@ -127,9 +138,8 @@ public class GestionPartenaireController implements Initializable {
 
     private void AfficherPartenaire() {
 
-       
         String role = "a:1:{i:0;s:9:\"ROLE_PART\";}";
-      
+
         ServiceLogin forumService = new ServiceLogin();
         ArrayList arrayList1 = (ArrayList) forumService.AfficherClien(role);
 
@@ -175,7 +185,7 @@ public class GestionPartenaireController implements Initializable {
 
     @FXML
     private void mod(ActionEvent event) {
-            try {
+        try {
             Utilisateur u = liste_partenaire.getSelectionModel().getSelectedItem();
             FXMLLoader Loader = new FXMLLoader();
             Loader.setLocation(getClass().getResource("/views/ModifierUnUtilisateur.fxml"));
@@ -189,6 +199,92 @@ public class GestionPartenaireController implements Initializable {
         } catch (IOException ex) {
             Logger.getLogger(GestionClientController.class.getName()).log(Level.SEVERE, null, ex);
         }
+    }
+
+    @FXML
+    private void exporterPDF(ActionEvent event) throws SQLException, IOException {
+        String role = "a:1:{i:0;s:9:\"ROLE_PART\";}";
+        String query = "select * from `fos_user` where roles =" + "'" + role + "'";
+        con = ConnectionUtil.conDB();
+        String qry = "select * from fos_user where roles =" + "'" + role + "'";
+        ResultSet rs = con.createStatement().executeQuery(qry);
+        System.out.println("kk");
+        int i = 1;
+        wb = new XSSFWorkbook();
+        System.out.println("n");
+        sheet = wb.createSheet("Partenaire Details");
+        System.out.println("d");
+        header = sheet.createRow(0);
+        System.out.println("f");
+        header.createCell(0).setCellValue("Identifiant");
+        header.createCell(1).setCellValue("Nom");
+        header.createCell(2).setCellValue("Prénom");
+        header.createCell(3).setCellValue("Nom d'utilisateur ");
+        header.createCell(4).setCellValue("E-Mail");
+        header.createCell(5).setCellValue("Status");
+        System.out.println("4");
+        while (rs.next()) {
+            System.out.println("9");
+            XSSFRow row = sheet.createRow(i);
+            System.out.println("o");
+            row.createCell(0).setCellValue(rs.getInt("id"));
+            System.out.println("qs");
+            row.createCell(1).setCellValue(rs.getString("nom"));
+            row.createCell(2).setCellValue(rs.getString("prenom"));
+            row.createCell(3).setCellValue(rs.getString("username"));
+            row.createCell(4).setCellValue(rs.getString("email"));
+  
+            int enabled = rs.getInt("enabled");
+            String state;
+            if (enabled == 1) {
+                state = "Activer";
+            } else {
+                state = "Désactiver";
+            }
+            row.createCell(5).setCellValue(state);
+            i++;
+        }
+        JFileChooser chooser = new JFileChooser();
+        chooser.setCurrentDirectory(new java.io.File("."));
+        chooser.setDialogTitle("choose title");
+        chooser.setFileSelectionMode(JFileChooser.DIRECTORIES_ONLY);
+        chooser.setAcceptAllFileFilterUsed(false);
+        if (chooser.showOpenDialog(null) == JFileChooser.APPROVE_OPTION) {
+            System.out.println("getCurrentDirectory(): " + chooser.getCurrentDirectory());
+            System.out.println("getSelectedFile() : " + chooser.getSelectedFile());
+            System.out.println("dd");
+            
+       
+            
+            FileOutputStream fileOut = new FileOutputStream(chooser.getSelectedFile() + "\\Partenaire.xlsx");
+            System.out.println("qs");
+            wb.write(fileOut);
+            fileOut.close();
+            Alert alert = new Alert(Alert.AlertType.INFORMATION);
+            alert.setTitle("Information Dialog");
+            alert.setHeaderText(null);
+            alert.setContentText("La liste des partenaire en format Exel a été exporter .");
+            alert.showAndWait();
+            
+            rs.close();
+        } else {
+             System.out.println("No Selection ");
+        }
+
+    }
+
+    private String getNomCategorie(int id) throws SQLException {
+        String categorie_nom;
+        String req = "select nom from categorie where id =" + "'" + id + "'";
+        Statement statement = con.createStatement();
+        ResultSet resultSet = statement.executeQuery(req);
+        while (resultSet.next()) {
+            // System.out.println(resultSet.getString("nom"));
+            categorie_nom = resultSet.getString("nom");
+            return categorie_nom;
+        }
+        return null;
+
     }
 
 }

@@ -30,25 +30,7 @@ public class ServicePanier {
     public static ArrayList<Panier> articles;
     Connection con = ServiceLogin.creationConnexion();
 
-    public void ajouterArticle(Panier p) {
-
-        PreparedStatement preparedStatement = null;
-        try {
-            String st = "INSERT INTO panier (id_produit,nom_produit,image_produit,qt_produit,qt_total_produit,prix_produit,nom_client) VALUES (?,?,?,?,?,?,?)";
-            preparedStatement = (PreparedStatement) con.prepareStatement(st);
-            preparedStatement.setInt(1, p.getId_produit());
-            preparedStatement.setString(2, p.getNom_produit());
-            preparedStatement.setString(3, p.getImage_produit());
-            preparedStatement.setInt(4, 1);
-            preparedStatement.setInt(5, p.getQuantite_produit());
-            preparedStatement.setDouble(6, p.getPrix_produit());
-            preparedStatement.setString(7, p.getNom_client());
-
-            preparedStatement.executeUpdate();
-        } catch (SQLException ex) {
-            Logger.getLogger(ServiceLogin.class.getName()).log(Level.SEVERE, null, ex);
-        }
-    }
+   
 
     /* public Produit getArticle(int idp) {
        
@@ -74,29 +56,7 @@ public class ServicePanier {
      }
      return list;
      }*/
-    public List<Panier> getArticle(String c) {
-
-        List<Panier> list = new ArrayList<Panier>();
-        String requete = "select * from panier where nom_client=" + "'" + c + "'";
-        try {
-            Statement statement = con.createStatement();
-            ResultSet rs = statement.executeQuery(requete);
-
-            while (rs.next()) {
-                Panier p = new Panier();
-                p.setId_produit(rs.getInt("id_produit"));
-                p.setNom_produit(rs.getString("nom_produit"));
-                p.setImage_produit(rs.getString("image_produit"));
-                p.setQuantite_produit(rs.getInt("qt_produit"));
-                p.setQt_total_produit(rs.getInt("qt_total_produit"));
-                p.setPrix_produit(rs.getDouble("prix_produit"));
-                list.add(p);
-            }
-        } catch (SQLException ex) {
-            Logger.getLogger(CategorieService.class.getName()).log(Level.SEVERE, null, ex);
-        }
-        return list;
-    }
+   
 
     public void supprimerArticle(int id) {
 

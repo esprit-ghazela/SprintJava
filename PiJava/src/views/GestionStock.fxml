@@ -23,7 +23,7 @@
                            <children>
                               <JFXButton buttonType="RAISED" layoutX="133.0" layoutY="10.0" minHeight="-Infinity" minWidth="-Infinity" onAction="#ajouter" prefHeight="45.0" prefWidth="48.0" style="-fx-background-color: transparent;" textFill="#ffffff00">
                                  <graphic>
-                                    <ImageView accessibleRole="BUTTON" fitHeight="33.0" fitWidth="60.0" onMouseClicked="#modifier" pickOnBounds="true" preserveRatio="true">
+                                    <ImageView accessibleRole="BUTTON" fitHeight="33.0" fitWidth="60.0" pickOnBounds="true" preserveRatio="true">
                                        <image>
                                           <Image url="@../images/add.png" />
                                        </image>
@@ -35,7 +35,7 @@
                               </JFXButton>
                               <JFXButton buttonType="RAISED" minHeight="-Infinity" minWidth="-Infinity" onAction="#supprimer" prefHeight="45.0" prefWidth="48.0" style="-fx-background-color: transparent;" textFill="#ffffff00">
                                  <graphic>
-                                    <ImageView accessibleRole="BUTTON" fitHeight="33.0" fitWidth="60.0" onMouseClicked="#modifier" pickOnBounds="true" preserveRatio="true">
+                                    <ImageView accessibleRole="BUTTON" fitHeight="33.0" fitWidth="60.0" pickOnBounds="true" preserveRatio="true">
                                        <image>
                                           <Image url="@../images/eraser%20(1).png" />
                                        </image>
@@ -47,7 +47,7 @@
                               </JFXButton>
                               <JFXButton buttonType="RAISED" minHeight="-Infinity" minWidth="-Infinity" onAction="#modifier" prefHeight="45.0" prefWidth="48.0" style="-fx-background-color: transparent;" textFill="#ffffff00">
                                  <graphic>
-                                    <ImageView accessibleRole="BUTTON" fitHeight="33.0" fitWidth="60.0" onMouseClicked="#modifier" pickOnBounds="true" preserveRatio="true">
+                                    <ImageView accessibleRole="BUTTON" fitHeight="33.0" fitWidth="60.0" pickOnBounds="true" preserveRatio="true">
                                        <image>
                                           <Image url="@../images/edit.png" />
                                        </image>
@@ -59,7 +59,7 @@
                               </JFXButton>
                               <JFXButton buttonType="RAISED" minHeight="-Infinity" minWidth="-Infinity" onAction="#detail" prefHeight="45.0" prefWidth="48.0" style="-fx-background-color: transparent;" textFill="#ffffff00">
                                  <graphic>
-                                    <ImageView accessibleRole="BUTTON" fitHeight="33.0" fitWidth="60.0" onMouseClicked="#modifier" pickOnBounds="true" preserveRatio="true">
+                                    <ImageView accessibleRole="BUTTON" fitHeight="33.0" fitWidth="60.0" pickOnBounds="true" preserveRatio="true">
                                        <image>
                                           <Image url="@../images/eye%20(1).png" />
                                        </image>
@@ -114,7 +114,7 @@
                      <children>
                         <JFXButton buttonType="RAISED" minHeight="-Infinity" minWidth="-Infinity" onAction="#exporterPDF" prefHeight="48.0" prefWidth="51.0" style="-fx-background-color: transparent;" textFill="#ffffff00">
                            <graphic>
-                              <ImageView accessibleRole="BUTTON" fitHeight="48.0" fitWidth="106.0" onMouseClicked="#modifier" pickOnBounds="true" preserveRatio="true">
+                              <ImageView accessibleRole="BUTTON" fitHeight="48.0" fitWidth="106.0" pickOnBounds="true" preserveRatio="true">
                                  <image>
                                     <Image url="@../images/icons8-pdf-64.png" />
                                  </image>

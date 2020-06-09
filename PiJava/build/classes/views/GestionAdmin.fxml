@@ -85,6 +85,19 @@
                         
                      </columns>
                   </TableView>
+                  <HBox alignment="CENTER_RIGHT" prefHeight="33.0" prefWidth="786.0">
+                     <children>
+                        <JFXButton buttonType="RAISED" minHeight="-Infinity" minWidth="-Infinity" onAction="#exporterPDF" prefHeight="48.0" prefWidth="51.0" style="-fx-background-color: transparent;" textFill="#ffffff00">
+                           <graphic>
+                              <ImageView accessibleRole="BUTTON" fitHeight="41.0" fitWidth="43.0" onMouseClicked="#modifier" pickOnBounds="true" preserveRatio="true">
+                                 <image>
+                                    <Image url="@../images/icons8-ms-excel-40.png" />
+                                 </image>
+                              </ImageView>
+                           </graphic>
+                        </JFXButton>
+                     </children>
+                  </HBox>
                </children>
             </VBox>
          </children>

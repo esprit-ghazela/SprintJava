@@ -8,6 +8,7 @@ package controllers;
 import com.itextpdf.text.Rectangle;
 import com.jfoenix.controls.JFXTextField;
 import com.twilio.rest.api.v2010.account.usage.Record;
+import java.io.FileOutputStream;
 import java.io.IOException;
 import java.net.URL;
 import java.sql.Connection;
@@ -51,11 +52,17 @@ import javafx.scene.layout.BorderPane;
 import javafx.scene.paint.Color;
 import javafx.stage.StageStyle;
 import javafx.util.Callback;
+import javax.swing.JFileChooser;
 import models.Categorie;
 import models.Produit;
 import models.Utilisateur;
+import org.apache.poi.xssf.usermodel.XSSFRow;
+import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 import services.ServiceLogin;
 import utils.ConnectionUtil;
+import org.apache.poi.xssf.usermodel.XSSFRow;
+import org.apache.poi.xssf.usermodel.XSSFSheet;
+import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 
 /**
  * FXML Controller class
@@ -86,6 +93,12 @@ public class GestionClientController implements Initializable {
     ServiceLogin serviceLogin = new ServiceLogin();
     private ObservableList<Utilisateur> masterData = FXCollections.observableArrayList();
     ObservableList<Utilisateur> ListClient = FXCollections.observableArrayList();
+    private XSSFWorkbook wb;
+    private XSSFSheet sheet;
+    private XSSFRow header;
+    private ResultSet rs = null;
+    
+    
     @FXML
     private TableColumn status_client;
 
@@ -197,6 +210,10 @@ public class GestionClientController implements Initializable {
         }
     }
 
+    @FXML
+    private void modifier(MouseEvent event) {
+    }
+
     //Define the button cell
     private class ButtonCell extends TableCell<Record, Boolean> {
 
@@ -293,6 +310,76 @@ public class GestionClientController implements Initializable {
         colBtn.setCellFactory(cellFactory);
 
         liste_client.getColumns().add(colBtn);
+
+    }
+
+    @FXML
+    private void exporterPDF(ActionEvent event) throws SQLException, IOException {
+        String role = "a:1:{i:0;s:11:\"ROLE_CLIENT\";}";
+
+        con = ConnectionUtil.conDB();
+        String qry = "select * from fos_user where roles =" + "'" + role + "'";
+        ResultSet rs = con.createStatement().executeQuery(qry);
+        System.out.println("kk");
+        int i = 1;
+        wb = new XSSFWorkbook();
+        System.out.println("n");
+        sheet = wb.createSheet("Clients Details");
+        System.out.println("d");
+        header = sheet.createRow(0);
+        System.out.println("f");
+        header.createCell(0).setCellValue("Identifiant");
+        header.createCell(1).setCellValue("Nom");
+        header.createCell(2).setCellValue("Prénom");
+        header.createCell(3).setCellValue("Nom d'utilisateur ");
+        header.createCell(4).setCellValue("E-Mail");
+        header.createCell(5).setCellValue("Status");
+        System.out.println("4");
+        while (rs.next()) {
+            System.out.println("9");
+            XSSFRow row = sheet.createRow(i);
+            System.out.println("o");
+            row.createCell(0).setCellValue(rs.getInt("id"));
+            System.out.println("qs");
+            row.createCell(1).setCellValue(rs.getString("nom"));
+            row.createCell(2).setCellValue(rs.getString("prenom"));
+            row.createCell(3).setCellValue(rs.getString("username"));
+            row.createCell(4).setCellValue(rs.getString("email"));
+
+            int enabled = rs.getInt("enabled");
+            String state;
+            if (enabled == 1) {
+                state = "Activer";
+            } else {
+                state = "Désactiver";
+            }
+            row.createCell(5).setCellValue(state);
+            i++;
+        }
+        JFileChooser chooser = new JFileChooser();
+        chooser.setCurrentDirectory(new java.io.File("."));
+        chooser.setDialogTitle("choose title");
+        chooser.setFileSelectionMode(JFileChooser.DIRECTORIES_ONLY);
+        chooser.setAcceptAllFileFilterUsed(false);
+        if (chooser.showOpenDialog(null) == JFileChooser.APPROVE_OPTION) {
+            System.out.println("getCurrentDirectory(): " + chooser.getCurrentDirectory());
+            System.out.println("getSelectedFile() : " + chooser.getSelectedFile());
+            System.out.println("dd");
+
+            FileOutputStream fileOut = new FileOutputStream(chooser.getSelectedFile() + "\\Clients.xlsx");
+            System.out.println("qs");
+            wb.write(fileOut);
+            fileOut.close();
+            Alert alert = new Alert(Alert.AlertType.INFORMATION);
+            alert.setTitle("Information Dialog");
+            alert.setHeaderText(null);
+            alert.setContentText("La liste des clients en format Exel a été exporter .");
+            alert.showAndWait();
+
+            rs.close();
+        } else {
+            System.out.println("No Selection ");
+        }
 
     }
 

@@ -35,7 +35,17 @@ public class Produit {
         this.reference = reference;
         this.image = image ;
     }
-
+    
+      public Produit(int id, String reference, String nom,String image, double prix, int quantite ) {
+        this.id = id;
+        this.nom = nom;
+        this.prix = prix;
+        this.quantite = quantite;
+        this.reference = reference;
+        this.image = image ;
+    }
+      
+      
     public Produit(int id,String reference,String nom, String image, double prix,int quantite,String caegorie,String marque,  String description) {
         this.id = id;
         this.nom = nom;

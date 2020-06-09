@@ -8,11 +8,14 @@
   </information>
   <resources>
     <j2se version="1.6+" href="http://java.sun.com/products/autodl/j2se"/>
+    <jar href="lib\avalon-framework-4.1.3.jar" size="63966" download="eager" />
     <jar href="lib\bcrypt-0.4.1.jar" size="42979" download="eager" />
     <jar href="lib\bcrypt-0.9.0.jar" size="41104" download="eager" />
+    <jar href="lib\commons-logging-1.1.jar" size="52915" download="eager" />
     <jar href="lib\controlsfx-8.40.11.jar" size="985420" download="eager" />
     <jar href="lib\controlsfx-8.40.14.jar" size="1215643" download="eager" />
     <jar href="lib\controlsfx-samples-8.40.14.jar" size="725707" download="eager" />
+    <jar href="lib\dom4j-1.6.1.jar" size="313898" download="eager" />
     <jar href="lib\fontawesomefx-8.1.jar" size="179086" download="eager" />
     <jar href="lib\fontawesomefx-8.9-javadoc.jar" size="279185" download="eager" />
     <jar href="lib\fontawesomefx-8.9-sources.jar" size="448716" download="eager" />
@@ -29,14 +32,28 @@
     <jar href="lib\jfoenix-8.0.4.jar" size="2487326" download="eager" />
     <jar href="lib\jfoenix-8.0.8.jar" size="2708772" download="eager" />
     <jar href="lib\json-20190722.jar" size="65003" download="eager" />
+    <jar href="lib\log4j-1.2.13.jar" size="358180" download="eager" />
+    <jar href="lib\logkit-1.0.1.jar" size="72150" download="eager" />
     <jar href="lib\mysql-connector-java-5.1.23-bin.jar" size="827921" download="eager" />
+    <jar href="lib\ooxml-schemas-1.0.jar" size="14003759" download="eager" />
+    <jar href="lib\ooxml-schemas-1.1.jar" size="14841622" download="eager" />
+    <jar href="lib\openxml4j-1.0-beta.jar" size="142882" download="eager" />
     <jar href="lib\org.apache.servicemix.bundles.commons-codec-1.2_5.jar" size="36876" download="eager" />
+    <jar href="lib\org.openl.lib.poi.dev-5.10.3.jar" size="3843488" download="eager" />
+    <jar href="lib\org.openl.lib.poi.dev.modified-5.10.3.jar" size="3927676" download="eager" />
+    <jar href="lib\poi-ooxml-3.17.0.wso2v1.jar" size="9958187" download="eager" />
+    <jar href="lib\poi-ooxml-3.5-beta4.jar" size="240856" download="eager" />
+    <jar href="lib\poi-ooxml-schemas-3.8.jar" size="4706775" download="eager" />
+    <jar href="lib\servlet-api-2.3.jar" size="77977" download="eager" />
     <jar href="lib\slf4j-api-1.7.9.jar" size="32121" download="eager" />
     <jar href="lib\slf4j-nop-1.7.9.jar" size="4084" download="eager" />
     <jar href="lib\spring-security-crypto-3.1.2.release.jar" size="41154" download="eager" />
+    <jar href="lib\stax-api-1.0.1.jar" size="26514" download="eager" />
     <jar href="lib\tachyons-font-family-4.1.2.jar" size="6735" download="eager" />
     <jar href="lib\twilio-7.17.7.jar" size="2801356" download="eager" />
-    <jar href="test.jar" size="5904889" download="eager" />
+    <jar href="lib\xml-apis-1.0.b2.jar" size="109318" download="eager" />
+    <jar href="lib\xmlbeans-2.3.0.jar" size="2666695" download="eager" />
+    <jar href="test.jar" size="5912095" download="eager" />
   </resources>
   <applet-desc  width="800" height="600" main-class="com.javafx.main.NoJavaFXFallback"  name="test" >
     <param name="requiredFXVersion" value="8.0+"/>
