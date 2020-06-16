@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import com.jfoenix.controls.JFXButton?>
+<?import com.jfoenix.controls.JFXTextField?>
+<?import java.net.URL?>
+<?import javafx.scene.control.DatePicker?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.RadioButton?>
+<?import javafx.scene.control.TableColumn?>
+<?import javafx.scene.control.TableView?>
+<?import javafx.scene.effect.SepiaTone?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.BorderPane?>
+<?import javafx.scene.text.Font?>
+<?import javafx.scene.text.Text?>
+
+<BorderPane xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controllers.GestionAnnonceController">
+   <center>
+      <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="600.0" prefWidth="815.0">
+         <children>
+            <TableView fx:id="tab_annonce" layoutX="313.0" layoutY="62.0" prefHeight="519.0" prefWidth="500.0">
+               <columns>
+                  <TableColumn fx:id="id1" prefWidth="51.0" text="id" />
+                  <TableColumn fx:id="nom1" prefWidth="88.0" text="nom" />
+                  <TableColumn fx:id="img_P1" prefWidth="99.0" text="image" />
+                  <TableColumn fx:id="dateD1" prefWidth="141.0" text="date" />
+                  <TableColumn fx:id="description1" prefWidth="124.0" text="Description" />
+               </columns>
+               <stylesheets>
+                  <URL value="@../styling/fullpackstyling.css" />
+                  <URL value="@../styling/ajouterStyle.css" />
+                  <URL value="@../styling/affichageStyle.css" />
+               </stylesheets>
+            </TableView>
+            <AnchorPane prefHeight="581.0" prefWidth="283.0">
+               <children>
+                  <AnchorPane layoutX="18.0" layoutY="4.0" prefHeight="594.0" prefWidth="287.0" style="-fx-background-color: gris;">
+                     <children>
+                        <JFXButton fx:id="image1" layoutX="86.0" layoutY="290.0" onAction="#import_image_annonce" prefHeight="30.0" prefWidth="116.0" style="-fx-background-color: #48A5EA;" text="importer image" textFill="WHITE" />
+                        <DatePicker fx:id="date_d1" layoutX="43.0" layoutY="250.0" prefHeight="29.0" prefWidth="207.0">
+                           <effect>
+                              <SepiaTone level="0.12" />
+                           </effect>
+                        </DatePicker>
+                        <Text layoutX="7.0" layoutY="269.0" strokeType="OUTSIDE" strokeWidth="0.0" text="date" wrappingWidth="35.0546875" />
+                     </children></AnchorPane>
+                  <JFXTextField fx:id="nomP1" focusColor="#48a5ea" layoutX="26.0" layoutY="81.0" prefHeight="25.0" prefWidth="275.0" promptText="Nom de l'annonce" />
+                  <ImageView fx:id="imageviw11" fitHeight="140.0" fitWidth="249.0" layoutX="26.0" layoutY="336.0" pickOnBounds="true" preserveRatio="true" />
+                  <JFXButton fx:id="ajout1" layoutX="11.0" layoutY="516.0" onAction="#ajouter_annonce" prefHeight="30.0" prefWidth="84.0" style="-fx-background-color: #48A5EA;" text="ajouter" textFill="WHITE" />
+                  <JFXButton fx:id="update1" layoutX="103.0" layoutY="516.0" onAction="#modifier_annonce" prefHeight="30.0" prefWidth="84.0" style="-fx-background-color: #48A5EA;" text="modifier" textFill="WHITE" />
+                  <JFXButton fx:id="delete1" layoutX="200.0" layoutY="516.0" onAction="#supprimer_annonce" prefHeight="30.0" prefWidth="84.0" style="-fx-background-color: #48A5EA;" text="supprimer" textFill="WHITE" />
+                  <Label layoutX="18.0" layoutY="38.0" prefHeight="25.0" prefWidth="200.0" text="Ajouter une annonce" textFill="#48a5ea">
+                     <font>
+                        <Font name="System Bold" size="16.0" />
+                     </font>
+                  </Label>
+                  <JFXTextField fx:id="nom_P1" focusColor="#48a5ea" layoutX="25.0" layoutY="114.0" prefHeight="103.0" prefWidth="273.0" promptText="Description" />
+               </children>
+            </AnchorPane>
+            <RadioButton fx:id="tri11" layoutX="459.0" layoutY="23.0" mnemonicParsing="false" onAction="#tri_annonce_parNom" text="par nom" />
+            <RadioButton fx:id="tri2" layoutX="546.0" layoutY="23.0" mnemonicParsing="false" onAction="#tri_annonce_parDate" text="par date" />
+            <Text layoutX="407.0" layoutY="36.0" strokeType="OUTSIDE" strokeWidth="0.0" text="trier:" wrappingWidth="44.0546875" />
+         </children>
+      </AnchorPane>
+   </center>
+</BorderPane>

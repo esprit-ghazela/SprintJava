@@ -1,0 +1,157 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import java.lang.String?>
+<?import java.net.URL?>
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.chart.BarChart?>
+<?import javafx.scene.chart.CategoryAxis?>
+<?import javafx.scene.chart.NumberAxis?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.DatePicker?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.TableColumn?>
+<?import javafx.scene.control.TableView?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.effect.Lighting?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.BorderPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.text.Font?>
+
+<BorderPane xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controllers.CompetitionController">
+   <center>
+      <AnchorPane id="AnchorPane" fx:id="pagComp" maxHeight="-Infinity" maxWidth="-Infinity" minWidth="-Infinity" prefHeight="600.0" prefWidth="815.0">
+         <children>
+            <VBox alignment="CENTER" layoutX="4.0" layoutY="22.0" prefHeight="559.0" prefWidth="274.0">
+               <children>
+                  <HBox alignment="CENTER" prefHeight="89.0" prefWidth="233.0">
+                     <children>
+                        <Label text="Gérer Competition" textFill="#0582ff" textOverrun="WORD_ELLIPSIS">
+                           <font>
+                              <Font name="System Bold" size="23.0" />
+                           </font>
+                        </Label>
+                     </children>
+                  </HBox>
+                  <HBox alignment="CENTER" prefHeight="100.0" prefWidth="200.0">
+                     <children>
+                        <TextField fx:id="enomc" prefHeight="31.0" prefWidth="218.0" promptText="nom competition">
+                           <effect>
+                              <Lighting bumpInput="$null" diffuseConstant="2.0" specularConstant="0.0" specularExponent="40.0">
+                                 <light>
+                                    
+                                 </light>
+                              </Lighting>
+                           </effect>
+                        </TextField>
+                     </children>
+                  </HBox>
+                  <TextField fx:id="eregion" prefHeight="31.0" prefWidth="249.0" promptText="region" />
+                  <HBox prefHeight="58.0" prefWidth="330.0">
+                     <children>
+                        <Label fx:id="error_img" prefHeight="21.0" prefWidth="329.0" />
+                     </children>
+                  </HBox>
+                  <VBox alignment="CENTER" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="103.0" prefWidth="244.0">
+                     <children>
+                        <DatePicker fx:id="efinal" prefHeight="31.0" prefWidth="196.0" promptText="date fin">
+                           <VBox.margin>
+                              <Insets bottom="20.0" />
+                           </VBox.margin>
+                        </DatePicker>
+                        <DatePicker fx:id="edebut" promptText="date debut">
+                           <VBox.margin>
+                              <Insets bottom="20.0" />
+                           </VBox.margin>
+                        </DatePicker>
+                     </children>
+                  </VBox>
+                  <HBox alignment="CENTER" prefHeight="100.0" prefWidth="200.0">
+                     <children>
+                        <TextField fx:id="eprime" prefHeight="31.0" prefWidth="216.0" promptText="prime" />
+                     </children>
+                  </HBox>
+                  <HBox prefHeight="55.0" prefWidth="330.0">
+                     <children>
+                        <Label fx:id="error_date_d" prefHeight="21.0" prefWidth="336.0" />
+                     </children>
+                  </HBox>
+                  <HBox prefHeight="51.0" prefWidth="330.0">
+                     <children>
+                        <Label fx:id="error_date_f" prefHeight="21.0" prefWidth="328.0" />
+                     </children>
+                  </HBox>
+                  <HBox prefHeight="51.0" prefWidth="330.0">
+                     <children>
+                        <Label fx:id="error_nb" prefHeight="21.0" prefWidth="336.0" />
+                     </children>
+                  </HBox>
+                  <HBox alignment="CENTER" prefHeight="67.0" prefWidth="270.0">
+                     <children>
+                        <Button fx:id="EajouterComp" mnemonicParsing="false" onAction="#ajouterComp" styleClass="hover-link" text="ajouter">
+                           <font>
+                              <Font name="System Bold" size="15.0" />
+                           </font>
+                           <HBox.margin>
+                              <Insets left="5.0" />
+                           </HBox.margin>
+                        </Button>
+                        <Button fx:id="modifierComp" mnemonicParsing="false" onAction="#modiferComp_event" styleClass="hover-blue" text="modifier">
+                           <font>
+                              <Font name="System Bold" size="15.0" />
+                           </font>
+                           <HBox.margin>
+                              <Insets left="5.0" />
+                           </HBox.margin>
+                        </Button>
+                        <Button fx:id="supprimerComp" mnemonicParsing="false" onAction="#supprimerComp_event" text="supprimer">
+                           <font>
+                              <Font name="System Bold" size="15.0" />
+                           </font>
+                           <HBox.margin>
+                              <Insets left="5.0" />
+                           </HBox.margin>
+                        </Button>
+                     </children>
+                  </HBox>
+               </children>
+            </VBox>
+            <TextField fx:id="search" layoutX="396.0" layoutY="10.0" onAction="#recherche" prefHeight="25.0" prefWidth="396.0" />
+            <TableView fx:id="table_eventComp" layoutX="280.0" layoutY="43.0" prefHeight="370.0" prefWidth="529.0">
+              <columns>
+                <TableColumn fx:id="idComp" prefWidth="48.0" text="id" />
+                  <TableColumn fx:id="debutComp" prefWidth="99.0" text="date debut" />
+                  <TableColumn fx:id="finalComp" prefWidth="95.0" styleClass="bl_search" text="date fin" />
+                  <TableColumn fx:id="primeComp" prefWidth="90.0" styleClass="hover-blue-right" text="prime" />
+                <TableColumn fx:id="nomComp" prefWidth="85.0" styleClass="nav-right" text="nom" />
+                  <TableColumn fx:id="regionComp" prefWidth="110.0" text="region">
+                     <styleClass>
+                        <String fx:value="hover-dark-blue" />
+                        <String fx:value="bl_search" />
+                     </styleClass>
+                  </TableColumn>
+              </columns>
+               <stylesheets>
+                  <URL value="@../styling/affichageStyle.css" />
+                  <URL value="@../styling/ajouterStyle.css" />
+               </stylesheets>
+            </TableView>
+            <Button fx:id="stat" alignment="CENTER_RIGHT" contentDisplay="CENTER" layoutX="505.0" layoutY="417.0" mnemonicParsing="false" onAction="#loadChart" text="statistique">
+               <font>
+                  <Font name="System Bold" size="14.0" />
+               </font>
+            </Button>
+            <BarChart fx:id="chart" layoutX="313.0" layoutY="447.0" prefHeight="250.0" prefWidth="471.0">
+              <xAxis>
+                <CategoryAxis side="BOTTOM" />
+              </xAxis>
+              <yAxis>
+                <NumberAxis side="LEFT" />
+              </yAxis>
+            </BarChart>
+            <Label layoutX="280.0" layoutY="14.0" text="recherche par region :" />
+         </children>
+      </AnchorPane>
+   </center>
+</BorderPane>
